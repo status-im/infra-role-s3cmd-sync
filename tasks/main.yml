@@ -1,0 +1,44 @@
+---
+- name: Install s3cmd tool
+  apt:
+    name: s3cmd
+
+- name: Create service and timer
+  include_role: name=systemd-timer
+  vars:
+    systemd_timer_name: '{{ s3cmd_sync_service_name }}'
+    systemd_timer_user: '{{ s3cmd_sync_service_user }}'
+    systemd_timer_group: '{{ s3cmd_sync_service_group }}'
+    systemd_timer_description: '{{ s3cmd_sync_service_desc }}'
+    systemd_timer_frequency: '{{ s3cmd_sync_timer_frequency }}'
+    systemd_timer_timeout_sec: '{{ s3cmd_sync_timer_timeout }}'
+    systemd_timer_work_dir: '{{ s3cmd_sync_directory | mandatory }}'
+    systemd_timer_start_on_creation: true
+    systemd_timer_ionice_class: 'idle'
+    systemd_timer_consul_warning: true
+    systemd_timer_script_path: '/usr/bin/s3cmd'
+    systemd_timer_environment:
+      AWS_ACCESS_KEY_ID:     '{{ s3cmd_sync_access_key | mandatory }}'
+      AWS_SECRET_ACCESS_KEY: '{{ s3cmd_sync_secret_key | mandatory }}'
+    systemd_timer_script_args: |-
+      sync \
+      {% if s3cmd_sync_stats %}
+        --stats \
+      {% endif %}
+      {% if s3cmd_sync_verbose %}
+        --verbose \
+      {% endif %}
+      {% if s3cmd_sync_debug %}
+        --debug \
+      {% endif %}
+      {% for regex in s3cmd_sync_include_regexes %}
+        --rinclude='{{ regex }}' \
+      {% endfor %}
+      {% for regex in s3cmd_sync_exclude_regexes %}
+        --rexclude='{{ regex }}' \
+      {% endfor %}
+      {% for flag in s3cmd_sync_extra_flags %}
+        {{ flag }} \
+      {% endfor %}
+        '{{ s3cmd_sync_directory | mandatory }}' \
+        's3://{{ s3cmd_sync_bucket_name |mandatory }}{{ s3cmd_sync_bucket_path | default("/") }}'

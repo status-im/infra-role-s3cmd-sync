@@ -6,7 +6,7 @@ galaxy_info:
   license: MIT
   min_ansible_version: 1.9
   platforms:
-  - name: Ubuntu
-    versions:
-    - xenial
+    - name: Ubuntu
+      versions:
+        - xenial
 dependencies: []

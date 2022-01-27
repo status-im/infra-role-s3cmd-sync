@@ -1,0 +1,4 @@
+---
+- name: infra-role-systemd-timer
+  src: git@github.com:status-im/infra-role-systemd-timer.git
+  scm: git

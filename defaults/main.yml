@@ -1,0 +1,26 @@
+---
+# Mandatory
+#s3cmd_sync_name: ~
+#s3cmd_sync_bucket_name: ~
+#s3cmd_sync_bucket_path: ~
+#s3cmd_sync_directory: ~
+#s3cmd_sync_access_key: ~
+#s3cmd_sync_secret_key: ~
+
+# Flags
+s3cmd_sync_stats: true
+s3cmd_sync_verbose: false
+s3cmd_sync_debug: false
+s3cmd_sync_extra_flags: []
+s3cmd_sync_include_regexes: []
+s3cmd_sync_exclude_regexes: []
+
+# Service
+s3cmd_sync_service_name: 'sync-{{ s3cmd_sync_name | mandatory }}'
+s3cmd_sync_service_desc: 'Sync {{ s3cmd_sync_directory | mandatory }} to s3://{{ s3cmd_sync_bucket_name }}/'
+s3cmd_sync_service_user: root
+s3cmd_sync_service_group: root
+
+# Timer
+s3cmd_sync_timer_timeout: 120
+s3cmd_sync_timer_frequency: 'daily'
