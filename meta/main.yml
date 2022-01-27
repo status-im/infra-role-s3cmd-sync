@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Jakub Sokolowski <jakub@status.im>
+  description: Configures Systemd timer for syncing folder with S3.
+  company: Status.im
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+dependencies: []
