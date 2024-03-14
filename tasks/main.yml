@@ -4,7 +4,7 @@
     name: s3cmd
 
 - name: Create service and timer
-  include_role: name=systemd-timer
+  include_role: name=infra-role-systemd-timer
   vars:
     systemd_timer_name: '{{ s3cmd_sync_service_name }}'
     systemd_timer_user: '{{ s3cmd_sync_service_user }}'
